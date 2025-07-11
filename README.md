@@ -1,25 +1,37 @@
-# Azure Infrastructure with Terraform and GitHub Actions
+# Document Management and AI Chatbot Infrastructure
 
-This project provides infrastructure as code (IaC) for creating Azure resources using Terraform, with automated deployment and destruction through GitHub Actions.
+This project provides infrastructure as code (IaC) for creating a comprehensive document management and AI chatbot system using Azure services, with automated deployment and destruction through GitHub Actions.
 
-## Resources Created
+## 🏗️ Architecture Overview
 
-- **Resource Group**: `rg-genaitest-dev` (configurable)
-- **Storage Account**: `stgenaitestdev001` (configurable, must be globally unique)
-- **Storage Container**: `data` (configurable)
+### **Document Storage & Processing:**
+- **Azure Blob Storage** - Secure document storage with versioning
+- **Azure Functions** - Serverless document processing
+- **Azure Form Recognizer** - Text extraction from PDFs and images
 
-## Prerequisites
+### **AI & Search:**
+- **Azure Cognitive Search** - Intelligent document indexing
+- **Azure OpenAI Service** - GPT models for document Q&A
+- **Azure Bot Service** - Conversational AI interface
 
-### For Local Development
-1. [Terraform](https://www.terraform.io/downloads.html) (version >= 1.0)
-2. [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-3. Azure subscription access
+### **Web Application:**
+- **Azure App Service** - Web application hosting
+- **Azure SQL Database** - User data and document metadata
+- **Azure Key Vault** - Secure credential management
 
-### For GitHub Actions
-1. Azure Service Principal with appropriate permissions
-2. GitHub repository secrets configured
+## 📋 Resources Created
 
-## Quick Start
+- **Resource Group**: `rg-docai-chatbot-dev`
+- **Storage Account**: `stdocai001` (with document containers)
+- **SQL Database**: `docai-db` on `sql-docai-dev`
+- **Cognitive Search**: `search-docai-dev`
+- **OpenAI Service**: `openai-docai-dev`
+- **Bot Service**: `bot-docai-chatbot`
+- **App Service**: `app-docai-web` (web application)
+- **Functions App**: `func-docai-processor` (document processing)
+- **Key Vault**: `kv-docai-secrets`
+
+## 🚀 Quick Start
 
 ### Local Development
 
@@ -70,7 +82,7 @@ This project provides infrastructure as code (IaC) for creating Azure resources 
    - **Manual**: Go to Actions tab → "Terraform Azure Infrastructure" → "Run workflow"
      - Select action: `plan`, `apply`, or `destroy`
 
-## Configuration
+## 🔧 Configuration
 
 ### Variables
 
@@ -78,40 +90,62 @@ Edit `variables.tf` to customize:
 - `resource_group_name`: Name of the resource group
 - `location`: Azure region (default: East US)
 - `storage_account_name`: Storage account name (must be globally unique)
-- `container_name`: Storage container name
+- `sql_admin_password`: SQL Server administrator password
+- `bot_app_id` & `bot_app_password`: Bot service credentials
 - `tags`: Resource tags
 
 ### Example Customization
 
 ```hcl
 # terraform.tfvars
-resource_group_name = "rg-myproject-prod"
+resource_group_name = "rg-docai-chatbot-prod"
 location           = "West US 2"
-storage_account_name = "stmyprojectprod001"
-container_name     = "appdata"
+storage_account_name = "stdocai001prod"
+sql_admin_password = "YourSecurePassword123!"
 tags = {
   Environment = "Production"
-  Project     = "MyProject"
+  Project     = "DocAI-Chatbot"
   ManagedBy   = "Terraform"
 }
 ```
 
-## Pipeline Features
+## 🔄 Data Flow
 
-- **Automatic Planning**: Runs on every push to main
-- **Pull Request Validation**: Comments with plan details
-- **Manual Actions**: Apply/Destroy via GitHub Actions UI
-- **Security**: Uses Azure Service Principal authentication
-- **State Management**: Terraform state stored locally (consider Azure Storage for production)
+1. **Document Upload**: Users upload documents to Azure Blob Storage
+2. **Processing**: Azure Functions process documents and extract text
+3. **Indexing**: Text is indexed in Azure Cognitive Search
+4. **User Query**: Users ask questions via the chatbot
+5. **AI Processing**: OpenAI searches documents and generates answers
+6. **Response**: Bot returns contextual answers to users
 
-## Security Notes
+## 🔒 Security Features
 
-- Storage account access keys are marked as sensitive in outputs
-- Use Azure Key Vault for production secrets
-- Consider enabling storage account encryption and firewall rules
-- Review and adjust IAM permissions as needed
+- **Encryption**: All data encrypted at rest and in transit
+- **Key Vault**: Secure storage of sensitive credentials
+- **Private Access**: Storage containers with private access
+- **TLS 1.2**: Minimum TLS version enforced
+- **Managed Identity**: App Service uses managed identity for Key Vault access
 
-## Troubleshooting
+## 📊 Monitoring & Analytics
+
+- **Application Insights**: Built-in monitoring for App Service
+- **Azure Monitor**: Infrastructure monitoring
+- **Log Analytics**: Centralized logging
+
+## 💰 Cost Optimization
+
+- **Consumption Plan**: Functions use pay-per-use pricing
+- **Basic Tier**: SQL Database and App Service use basic tiers
+- **Reserved Capacity**: Consider reserved instances for production
+
+## 🚨 Important Notes
+
+- **OpenAI Service**: Requires approval from Microsoft
+- **Bot Registration**: Bot App ID and password must be configured
+- **Storage Names**: Storage account names must be globally unique
+- **SQL Password**: Use strong passwords for production
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -119,15 +153,25 @@ tags = {
    - Change `storage_account_name` in variables.tf
    - Storage account names must be globally unique
 
-2. **Authentication Errors**:
-   - Verify Azure CLI login: `az account show`
-   - Check service principal permissions for GitHub Actions
+2. **OpenAI Service Not Available**:
+   - Request access to Azure OpenAI Service
+   - Check region availability
 
-3. **Terraform State Issues**:
-   - Delete `.terraform` folder and run `terraform init` again
-   - Consider using remote state storage for team environments
+3. **Bot Service Configuration**:
+   - Register bot in Azure Bot Service
+   - Configure App ID and password
 
-## Contributing
+## 📚 Next Steps
+
+After infrastructure deployment:
+
+1. **Deploy Application Code** to App Service
+2. **Configure Bot Framework** for the chatbot
+3. **Set up Document Processing** workflows
+4. **Configure Cognitive Search** indexes
+5. **Test End-to-End** functionality
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -135,6 +179,6 @@ tags = {
 4. Test with `terraform plan`
 5. Submit a pull request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
