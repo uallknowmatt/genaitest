@@ -61,9 +61,16 @@ variable "search_service_name" {
   default     = "search-docai-dev"
 }
 
+# Form Recognizer Variables
+variable "form_recognizer_name" {
+  description = "Name of the Azure Form Recognizer service"
+  type        = string
+  default     = "formrecognizer-docai-dev"
+}
+
 # OpenAI Variables
-variable "openai_account_name" {
-  description = "Name of the Azure OpenAI account"
+variable "openai_service_name" {
+  description = "Name of the Azure OpenAI service"
   type        = string
   default     = "openai-docai-dev"
 }
@@ -89,14 +96,14 @@ variable "bot_app_password" {
 }
 
 # App Service Variables
-variable "app_service_plan_name" {
-  description = "Name of the App Service Plan"
+variable "web_app_plan_name" {
+  description = "Name of the App Service Plan for web app"
   type        = string
   default     = "plan-docai-web"
 }
 
-variable "app_service_name" {
-  description = "Name of the App Service"
+variable "web_app_name" {
+  description = "Name of the web application"
   type        = string
   default     = "app-docai-web"
 }
@@ -119,6 +126,20 @@ variable "key_vault_name" {
   description = "Name of the Key Vault"
   type        = string
   default     = "kv-docai-secrets"
+}
+
+# Logic App Variables
+variable "logic_app_name" {
+  description = "Name of the Logic App for document management"
+  type        = string
+  default     = "logic-docai-manager"
+}
+
+# Application Insights Variables
+variable "app_insights_name" {
+  description = "Name of the Application Insights for monitoring"
+  type        = string
+  default     = "appi-docai-monitor"
 }
 
 variable "tags" {
