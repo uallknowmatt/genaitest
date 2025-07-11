@@ -1,0 +1,12 @@
+{
+  "clientId": "your-client-id-here",
+  "clientSecret": "your-client-secret-here",
+  "subscriptionId": "d8797220-f5cf-4668-a271-39ce114bb150",
+  "tenantId": "your-tenant-id-here",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+} 

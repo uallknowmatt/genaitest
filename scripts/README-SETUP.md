@@ -33,10 +33,36 @@ cd scripts
 .\setup-github-secrets-api.ps1 -GitHubToken "your-github-token" -GitHubRepo "uallknowmatt/genaitest"
 ```
 
+## Option 3: From Existing Service Principal JSON File
+
+### Prerequisites:
+1. Azure service principal JSON file (from `az ad sp create-for-rbac` output)
+2. GitHub CLI OR GitHub Personal Access Token
+
+### Usage:
+```powershell
+# Navigate to the scripts directory
+cd scripts
+
+# Using GitHub CLI
+.\setup-github-secrets-from-file.ps1 -GitHubRepo "uallknowmatt/genaitest" -JsonFilePath "path\to\your\service-principal.json"
+
+# Using REST API with token
+.\setup-github-secrets-from-file.ps1 -GitHubRepo "uallknowmatt/genaitest" -JsonFilePath "path\to\your\service-principal.json" -GitHubToken "your-github-token"
+```
+
+### Example JSON File Format:
+See `example-service-principal.json` for the expected format. Your JSON should contain:
+- `clientId`
+- `clientSecret`
+- `subscriptionId`
+- `tenantId`
+
 ## What the scripts do:
 
-1. **Create Azure Service Principal** with contributor role on your subscription
-2. **Add GitHub Secrets**:
+1. **Create Azure Service Principal** with contributor role on your subscription (Options 1 & 2)
+2. **Read existing Service Principal** from JSON file (Option 3)
+3. **Add GitHub Secrets**:
    - `AZURE_CLIENT_ID`
    - `AZURE_CLIENT_SECRET`
    - `AZURE_SUBSCRIPTION_ID`
@@ -58,7 +84,7 @@ Add the 4 secrets from the service principal output.
 
 ## Testing the Setup:
 
-After running either script, you can test the GitHub Actions:
+After running any script, you can test the GitHub Actions:
 
 1. Go to your GitHub repository
 2. Click **Actions** tab
