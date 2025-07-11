@@ -16,7 +16,7 @@ output "search_service_primary_key" {
 
 output "search_service_endpoint" {
   description = "Endpoint for the Azure Cognitive Search service"
-  value       = azurerm_search_service.search.primary_endpoint
+  value       = "https://${azurerm_search_service.search.name}.search.windows.net"
 }
 
 output "form_recognizer_id" {
